@@ -27,7 +27,17 @@ const Gameboard = (() => {
   };
 })();
 
+// Player factory function
+const Player = (playerName, playerToken) => {
+  const getName = () => playerName;
+  const getToken = () => playerToken;
+  return { getName, getToken };
+};
+
+const player1 = Player('Myself', '❌');
+const player2 = Player('Them', '⭕');
+
 console.log(Gameboard.getBoard());
-Gameboard.updateBoard(1, 'X');
-Gameboard.updateBoard(4, 'O');
+Gameboard.updateBoard(1, player1.getToken());
+Gameboard.updateBoard(4, player2.getToken());
 console.log(Gameboard.getBoard());
