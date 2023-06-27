@@ -87,9 +87,14 @@ const ScreenController = (() => {
     cells.forEach((cell, index) => {
       cell.textContent = board[index];
     });
-  };
 
-  game.playRound(4);
+    const clickHandlerBoard = (e) => {
+      const selectedCellIndex = e.target.dataset.value;
+      game.playRound(selectedCellIndex);
+      updateScreen();
+    };
+    boardDiv.addEventListener('click', clickHandlerBoard);
+  };
 
   updateScreen();
 })();
