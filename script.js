@@ -63,13 +63,33 @@ const GameController = (() => {
     printNewRound();
   };
 
-  printNewRound();
-
-  return { playRound };
+  return {
+    getBoard: board.getBoard,
+    playRound,
+    getCurrentPlayer,
+  };
 })();
 
-GameController.playRound(2);
-GameController.playRound(0);
-GameController.playRound(2);
-GameController.playRound(4);
+const ScreenController = (() => {
+  const game = GameController;
+  const playerTurnDiv = document.getElementById('player-turn');
+  const boardDiv = document.getElementById('board');
+  const cells = document.querySelectorAll('.cell');
 
+  const updateScreen = () => {
+    // get the newest version of the board and player turn
+    const board = game.getBoard();
+    const currentPlayerName = game.getCurrentPlayer().getName();
+    // Display player's turn
+    playerTurnDiv.textContent = `${currentPlayerName}'s turn`;
+
+    // Render board
+    cells.forEach((cell, index) => {
+      cell.textContent = board[index];
+    });
+  };
+
+  game.playRound(4);
+
+  updateScreen();
+})();
