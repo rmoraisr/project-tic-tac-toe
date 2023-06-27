@@ -34,10 +34,38 @@ const Player = (playerName, playerToken) => {
   return { getName, getToken };
 };
 
-const player1 = Player('Myself', '❌');
-const player2 = Player('Them', '⭕');
+const GameController = (() => {
+  const board = Gameboard;
+  const player1 = Player('Myself', '❌');
+  const player2 = Player('Them', '⭕');
 
-console.log(Gameboard.getBoard());
-Gameboard.updateBoard(1, player1.getToken());
-Gameboard.updateBoard(4, player2.getToken());
-console.log(Gameboard.getBoard());
+  let currentPlayer = player1;
+
+  const switchPlayerTurn = () => {
+    currentPlayer = currentPlayer === player1 ? player2 : player1;
+  };
+  const getCurrentPlayer = () => currentPlayer;
+
+  const printNewRound = () => {
+    console.log(board.getBoard());
+    console.log(`${getCurrentPlayer().getName()}'s turn.`);
+  };
+
+  const playRound = (index) => {
+    console.log(
+      `Inserting ${getCurrentPlayer().getName()}'s token into cell ${index}...`
+    );
+    board.updateBoard(index, getCurrentPlayer().getToken());
+
+    switchPlayerTurn();
+    printNewRound();
+  };
+
+  printNewRound();
+
+  return { playRound };
+})();
+
+GameController.playRound(2);
+GameController.playRound(3);
+GameController.playRound(8);
