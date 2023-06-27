@@ -52,6 +52,8 @@ const GameController = (() => {
   };
 
   const playRound = (index) => {
+    // Check if the player is choosing a valid cell
+    if (board.getBoard()[index] !== '') return;
     console.log(
       `Inserting ${getCurrentPlayer().getName()}'s token into cell ${index}...`
     );
@@ -67,5 +69,7 @@ const GameController = (() => {
 })();
 
 GameController.playRound(2);
-GameController.playRound(3);
-GameController.playRound(8);
+GameController.playRound(0);
+GameController.playRound(2);
+GameController.playRound(4);
+
