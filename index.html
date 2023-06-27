@@ -23,35 +23,35 @@
         <div class="cell" data-value="8"></div>
       </div>
       <div class="player-turn" id="player-turn"></div>
+      <div class="input">
+        <div class="player-input">
+          <label for="player1-name">Player 1 Name:</label>
+          <input type="text" id="player1-name" name="player1-name" required />
+          <label for="player1-emoji">Player 1 Emoji:</label>
+          <select id="player1-emoji" name="player1-emoji">
+            <option value="" selected disabled>Select an emoji</option>
+            <option class="emoji-option" value="❌">❌</option>
+            <option class="emoji-option" value="⭕">⭕</option>
+            <option class="emoji-option" value="🦄">🦄</option>
+            <option class="emoji-option" value="🏀">🏀</option>
+            <option class="emoji-option" value="🏈">🏈</option>
+          </select>
+        </div>
+
+        <div class="player-input">
+          <label for="player2-name">Player 2 Name:</label>
+          <input type="text" id="player2-name" name="player2-name" required />
+          <label for="player2-emoji">Player 2 Emoji:</label>
+          <select id="player2-emoji" name="player2-emoji">
+            <option value="" selected disabled>Select an emoji</option>
+            <option class="emoji-option" value="❌">❌</option>
+            <option class="emoji-option" value="⭕">⭕</option>
+            <option class="emoji-option" value="🦄">🦄</option>
+            <option class="emoji-option" value="🏀">🏀</option>
+            <option class="emoji-option" value="🏈">🏈</option>
+          </select>
+        </div>
+      </div>
     </main>
-    <form>
-      <label for="player1-name">Player 1 Name:</label>
-      <input type="text" id="player1-name" name="player1-name" required />
-
-      <label for="player1-emoji">Player 1 Emoji:</label>
-      <select id="player1-emoji" name="player1-emoji">
-        <option value="" selected disabled>Select an emoji</option>
-        <option class="emoji-option" value="❌">❌</option>
-        <option class="emoji-option" value="⭕">⭕</option>
-        <option class="emoji-option" value="🦄">🦄</option>
-        <option class="emoji-option" value="🏀">🏀</option>
-        <option class="emoji-option" value="🏈">🏈</option>
-      </select>
-
-      <label for="player2-name">Player 2 Name:</label>
-      <input type="text" id="player2-name" name="player2-name" required />
-
-      <label for="player2-emoji">Player 2 Emoji:</label>
-      <select id="player2-emoji" name="player2-emoji">
-        <option value="" selected disabled>Select an emoji</option>
-        <option class="emoji-option" value="❌">❌</option>
-        <option class="emoji-option" value="⭕">⭕</option>
-        <option class="emoji-option" value="🦄">🦄</option>
-        <option class="emoji-option" value="🏀">🏀</option>
-        <option class="emoji-option" value="🏈">🏈</option>
-      </select>
-
-      <input id="btn-start" type="submit" value="Start Game" />
-    </form>
   </body>
 </html>

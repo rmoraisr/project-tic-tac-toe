@@ -49,9 +49,16 @@ body {
   height: 80px;
 }
 
+.player-turn {
+  margin: 20px;
+  font-size: 28px;
+  color: goldenrod;
+  text-shadow: 1px 1px #908d8d;
+
+}
 .input {
-  margin-top: 20px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
 #message {
@@ -61,12 +68,18 @@ body {
 }
 
 /* CSS styles for input fields */
-input[type='text'] {
-  padding: 5px;
-  font-size: 16px;
+input[type='text'], .emoji-option {
+  padding: 2px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 4px;
   margin-bottom: 5px;
+  color: red;
+}
+
+label {
+  color: green;
+  font-size: 16px;
 }
 
 /* CSS styles for start/restart button */

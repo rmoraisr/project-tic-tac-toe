@@ -36,8 +36,12 @@ const Player = (playerName, playerToken) => {
 
 const GameController = (() => {
   const board = Gameboard;
-  const player1 = Player('Myself', '❌');
-  const player2 = Player('Them', '⭕');
+  const player1Name = document.getElementById('player1-name').value;
+  const player2Name = document.getElementById('player2-name').value;
+  const player1Token = document.getElementById('player1-emoji').value;
+  const player2Token = document.getElementById('player2-emoji').value;
+  const player1 = Player(player1Name || 'Player I', player1Token);
+  const player2 = Player(player2Name || 'Player II', player2Token);
 
   let currentPlayer = player1;
 
