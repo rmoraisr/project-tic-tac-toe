@@ -1,12 +1,7 @@
 // The Gameboard represents the state of the board
 
 const Gameboard = (() => {
-  /*
- A cell represents one "square" on the board and can have one of this values:
- 0: no token is in the square, is a empty one
- 1: Player One's token,
- 2: Plauer Two's token
-  */
+  // Gameboard representation
   let board = Array(9).fill('');
 
   const getBoard = () => board;
@@ -49,11 +44,6 @@ const GameController = (() => {
     currentPlayer = currentPlayer === player1 ? player2 : player1;
   };
   const getCurrentPlayer = () => currentPlayer;
-
-  const printNewRound = () => {
-    console.log(board.getBoard());
-    console.log(`${getCurrentPlayer().getName()}'s turn.`);
-  };
 
   const checkWinner = (board) => {
     // Define all possible winning combinations
@@ -110,27 +100,22 @@ const GameController = (() => {
   const playRound = (index) => {
     // Check if the player is choosing a valid cell
     if (board.getBoard()[index] !== '') return;
-    console.log(
-      `Inserting ${getCurrentPlayer().getName()}'s token into cell ${index}...`
-    );
     board.updateBoard(index, getCurrentPlayer().getToken());
 
     // Check for game over conditions
     const currentBoard = board.getBoard();
     if (checkWinner(currentBoard)) {
       showWinnerMessage(getCurrentPlayer().getName());
-      console.log(`${getCurrentPlayer().getName()} wins!`);
       // Perform game over actions, e.g., show winner, disable further moves
       return;
     } else if (checkTie(currentBoard)) {
       showTieMessage();
-      console.log("It's a tie!");
+
       // Perform game over actions for a tie, e.g., show tie message, disable further moves
       return;
     }
 
     switchPlayerTurn();
-    printNewRound();
   };
 
   return {
@@ -164,16 +149,18 @@ const ScreenController = (() => {
     cells.forEach((cell, index) => {
       cell.textContent = board[index];
     });
-
-    const clickHandlerBoard = (e) => {
-      const selectedCellIndex = e.target.dataset.value;
-      game.playRound(selectedCellIndex);
-      updateScreen();
-    };
-    boardDiv.addEventListener('click', clickHandlerBoard);
-    const closeModalButton = document.getElementById('btn-modal');
-    closeModalButton.addEventListener('click', closeDialog);
   };
+
+  const clickHandlerBoard = (e) => {
+    const selectedCellIndex = e.target.dataset.value;
+    game.playRound(selectedCellIndex);
+    updateScreen();
+  };
+
+  boardDiv.addEventListener('click', clickHandlerBoard);
+
+  const closeModalButton = document.getElementById('btn-modal');
+  closeModalButton.addEventListener('click', closeDialog);
 
   updateScreen();
 })();
