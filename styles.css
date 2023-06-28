@@ -54,7 +54,6 @@ body {
   font-size: 28px;
   color: goldenrod;
   text-shadow: 1px 1px #908d8d;
-
 }
 .input {
   display: flex;
@@ -68,7 +67,8 @@ body {
 }
 
 /* CSS styles for input fields */
-input[type='text'], .emoji-option {
+input[type='text'],
+.emoji-option {
   padding: 2px;
   font-size: 14px;
   border: 1px solid #ccc;
@@ -112,4 +112,50 @@ button:hover {
 
 .cell:nth-last-of-type(-n + 3) {
   border-bottom: none;
+}
+
+.game-modal {
+  border-radius: 10px;
+  position: absolute;
+  max-width: 500px; /* Adjust as needed */
+  background-color: #e0c06ee6;
+  padding: 20px;
+  left: 50%;
+  top: 25%;
+  transform: translate(-50%, -50%);
+  border: none;
+  box-shadow: 2px 2px #908d8d;
+}
+
+.game-modal::backdrop {
+  animation: fade 0.5s ease forwards;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game-message {
+  color: red;
+}
+
+.btn-modal {
+  height: 40px;
+  padding: 5px 10px;
+  background-color: #f90;
+}
+
+.btn-modal:focus {
+  outline: 2px solid #f90;
+}
+
+@keyframes fade {
+  0% {
+    background-color: transparent;
+  }
+  100% {
+    background-color: rgba(114, 129, 120, 0.712);
+  }
 }
