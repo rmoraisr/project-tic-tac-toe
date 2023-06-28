@@ -1,6 +1,5 @@
-// The Gameboard represents the state of the board
-
-const Gameboard = (() => {
+// The Game represents the state of the board
+const Game = (() => {
   // Gameboard representation
   let board = Array(9).fill('');
 
@@ -15,37 +14,7 @@ const Gameboard = (() => {
     board = Array(9).fill('');
   };
 
-  return {
-    getBoard,
-    updateBoard,
-    resetBoard,
-  };
-})();
-
-// Player factory function
-const Player = (playerName, playerToken) => {
-  const getName = () => playerName;
-  const getToken = () => playerToken;
-  return { getName, getToken };
-};
-
-const GameController = (() => {
-  const board = Gameboard;
-  const player1Name = document.getElementById('player1-name').value;
-  const player2Name = document.getElementById('player2-name').value;
-  const player1Token = document.getElementById('player1-emoji').value;
-  const player2Token = document.getElementById('player2-emoji').value;
-  const player1 = Player(player1Name || 'Player I', player1Token);
-  const player2 = Player(player2Name || 'Player II', player2Token);
-
-  let currentPlayer = player1;
-
-  const switchPlayerTurn = () => {
-    currentPlayer = currentPlayer === player1 ? player2 : player1;
-  };
-  const getCurrentPlayer = () => currentPlayer;
-
-  const checkWinner = (board) => {
+  const checkWinner = () => {
     // Define all possible winning combinations
     const winningCombinations = [
       // Rows
@@ -72,7 +41,7 @@ const GameController = (() => {
     return false; // No winner found
   };
 
-  const checkTie = (board) => {
+  const checkTie = () => {
     // Check if all cells are filled
     for (let cell of board) {
       if (cell === '') {
@@ -83,13 +52,46 @@ const GameController = (() => {
     return true; // All cells are filled, it's a tie
   };
 
+  return {
+    getBoard,
+    updateBoard,
+    resetBoard,
+    checkWinner,
+    checkTie,
+  };
+})();
+
+// Player factory function
+const Player = (playerName, playerToken) => {
+  const getName = () => playerName;
+  const getToken = () => playerToken;
+  return { getName, getToken };
+};
+
+// Game Controlle Mode
+const GameController = (() => {
+  const player1Name = document.getElementById('player1-name').value;
+  const player2Name = document.getElementById('player2-name').value;
+  const player1Token = document.getElementById('player1-emoji').value;
+  const player2Token = document.getElementById('player2-emoji').value;
+  const player1 = Player(player1Name || 'Player I', player1Token);
+  const player2 = Player(player2Name || 'Player II', player2Token);
+
+  let currentPlayer = player1;
+
+  const switchPlayerTurn = () => {
+    currentPlayer = currentPlayer === player1 ? player2 : player1;
+  };
+  const getCurrentPlayer = () => currentPlayer;
+
+  // ### MOVE
   const showWinnerMessage = (winnerName) => {
     const dialog = document.querySelector('.game-modal');
     const message = document.querySelector('.game-message');
     message.textContent = `${winnerName} wins!`;
     dialog.showModal();
   };
-
+  // ### MOVE
   const showTieMessage = () => {
     const dialog = document.querySelector('.game-modal');
     const message = document.querySelector('.game-message');
@@ -98,17 +100,19 @@ const GameController = (() => {
   };
 
   const playRound = (index) => {
+    const board = Game.getBoard();
     // Check if the player is choosing a valid cell
-    if (board.getBoard()[index] !== '') return;
-    board.updateBoard(index, getCurrentPlayer().getToken());
+    if (board[index] !== '') return;
+
+    Game.updateBoard(index, getCurrentPlayer().getToken());
 
     // Check for game over conditions
-    const currentBoard = board.getBoard();
-    if (checkWinner(currentBoard)) {
+
+    if (Game.checkWinner()) {
       showWinnerMessage(getCurrentPlayer().getName());
       // Perform game over actions, e.g., show winner, disable further moves
       return;
-    } else if (checkTie(currentBoard)) {
+    } else if (Game.checkTie()) {
       showTieMessage();
 
       // Perform game over actions for a tie, e.g., show tie message, disable further moves
@@ -119,14 +123,12 @@ const GameController = (() => {
   };
 
   return {
-    getBoard: board.getBoard,
     playRound,
     getCurrentPlayer,
   };
 })();
 
 const ScreenController = (() => {
-  const game = GameController;
   const playerTurnDiv = document.getElementById('player-turn');
   const boardDiv = document.getElementById('board');
   const cells = document.querySelectorAll('.cell');
@@ -134,14 +136,14 @@ const ScreenController = (() => {
   const closeDialog = () => {
     const dialog = document.getElementById('game-modal');
     dialog.close();
-    Gameboard.resetBoard();
+    Game.resetBoard();
     updateScreen();
   };
 
   const updateScreen = () => {
     // get the newest version of the board and player turn
-    const board = game.getBoard();
-    const currentPlayerName = game.getCurrentPlayer().getName();
+    const board = Game.getBoard();
+    const currentPlayerName = GameController.getCurrentPlayer().getName();
     // Display player's turn
     playerTurnDiv.textContent = `${currentPlayerName}'s turn`;
 
@@ -153,14 +155,21 @@ const ScreenController = (() => {
 
   const clickHandlerBoard = (e) => {
     const selectedCellIndex = e.target.dataset.value;
-    game.playRound(selectedCellIndex);
+    GameController.playRound(selectedCellIndex);
     updateScreen();
   };
 
-  boardDiv.addEventListener('click', clickHandlerBoard);
+  const initialize = () => {
+    updateScreen();
+    boardDiv.addEventListener('click', clickHandlerBoard);
 
-  const closeModalButton = document.getElementById('btn-modal');
-  closeModalButton.addEventListener('click', closeDialog);
+    const closeModalButton = document.getElementById('btn-modal');
+    closeModalButton.addEventListener('click', closeDialog);
+  };
 
-  updateScreen();
+  return {
+    initialize,
+  };
 })();
+
+ScreenController.initialize();
