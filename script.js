@@ -84,14 +84,14 @@ const GameController = (() => {
   };
   const getCurrentPlayer = () => currentPlayer;
 
-  // ### MOVE
+
   const showWinnerMessage = (winnerName) => {
     const dialog = document.querySelector('.game-modal');
     const message = document.querySelector('.game-message');
     message.textContent = `${winnerName} wins!`;
     dialog.showModal();
   };
-  // ### MOVE
+ 
   const showTieMessage = () => {
     const dialog = document.querySelector('.game-modal');
     const message = document.querySelector('.game-message');
