@@ -17,7 +17,7 @@ const Gameboard = (() => {
   };
 
   const resetBoard = () => {
-    board.Array(9).fill('');
+    board = Array(9).fill('');
   };
 
   return {
@@ -146,6 +146,13 @@ const ScreenController = (() => {
   const boardDiv = document.getElementById('board');
   const cells = document.querySelectorAll('.cell');
 
+  const closeDialog = () => {
+    const dialog = document.getElementById('game-modal');
+    dialog.close();
+    Gameboard.resetBoard();
+    updateScreen();
+  };
+
   const updateScreen = () => {
     // get the newest version of the board and player turn
     const board = game.getBoard();
@@ -164,6 +171,8 @@ const ScreenController = (() => {
       updateScreen();
     };
     boardDiv.addEventListener('click', clickHandlerBoard);
+    const closeModalButton = document.getElementById('btn-modal');
+    closeModalButton.addEventListener('click', closeDialog);
   };
 
   updateScreen();
