@@ -93,6 +93,20 @@ const GameController = (() => {
     return true; // All cells are filled, it's a tie
   };
 
+  const showWinnerMessage = (winnerName) => {
+    const dialog = document.querySelector('.game-modal');
+    const message = document.querySelector('.game-message');
+    message.textContent = `${winnerName} wins!`;
+    dialog.showModal();
+  };
+
+  const showTieMessage = () => {
+    const dialog = document.querySelector('.game-modal');
+    const message = document.querySelector('.game-message');
+    message.textContent = "It's a tie!";
+    dialog.showModal();
+  };
+
   const playRound = (index) => {
     // Check if the player is choosing a valid cell
     if (board.getBoard()[index] !== '') return;
@@ -104,10 +118,12 @@ const GameController = (() => {
     // Check for game over conditions
     const currentBoard = board.getBoard();
     if (checkWinner(currentBoard)) {
+      showWinnerMessage(getCurrentPlayer().getName());
       console.log(`${getCurrentPlayer().getName()} wins!`);
       // Perform game over actions, e.g., show winner, disable further moves
       return;
     } else if (checkTie(currentBoard)) {
+      showTieMessage();
       console.log("It's a tie!");
       // Perform game over actions for a tie, e.g., show tie message, disable further moves
       return;
