@@ -55,6 +55,44 @@ const GameController = (() => {
     console.log(`${getCurrentPlayer().getName()}'s turn.`);
   };
 
+  const checkWinner = (board) => {
+    // Define all possible winning combinations
+    const winningCombinations = [
+      // Rows
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      // Columns
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      // Diagonals
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    // Check each winning combination
+    for (let combination of winningCombinations) {
+      const [a, b, c] = combination;
+      if (board[a] !== '' && board[a] === board[b] && board[b] === board[c]) {
+        return true; // We have a winner
+      }
+    }
+
+    return false; // No winner found
+  };
+
+  const checkTie = (board) => {
+    // Check if all cells are filled
+    for (let cell of board) {
+      if (cell === '') {
+        return false; // At least one cell is empty, not a tie yet
+      }
+    }
+
+    return true; // All cells are filled, it's a tie
+  };
+
   const playRound = (index) => {
     // Check if the player is choosing a valid cell
     if (board.getBoard()[index] !== '') return;
@@ -62,6 +100,18 @@ const GameController = (() => {
       `Inserting ${getCurrentPlayer().getName()}'s token into cell ${index}...`
     );
     board.updateBoard(index, getCurrentPlayer().getToken());
+
+    // Check for game over conditions
+    const currentBoard = board.getBoard();
+    if (checkWinner(currentBoard)) {
+      console.log(`${getCurrentPlayer().getName()} wins!`);
+      // Perform game over actions, e.g., show winner, disable further moves
+      return;
+    } else if (checkTie(currentBoard)) {
+      console.log("It's a tie!");
+      // Perform game over actions for a tie, e.g., show tie message, disable further moves
+      return;
+    }
 
     switchPlayerTurn();
     printNewRound();
