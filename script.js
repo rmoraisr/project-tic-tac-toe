@@ -70,12 +70,9 @@ const Player = (playerName, playerToken) => {
 
 // Game Controlle Mode
 const GameController = (() => {
-  const player1Name = document.getElementById('player1-name').value;
-  const player2Name = document.getElementById('player2-name').value;
-  const player1Token = document.getElementById('player1-emoji').value;
-  const player2Token = document.getElementById('player2-emoji').value;
-  const player1 = Player(player1Name || 'Player I', player1Token);
-  const player2 = Player(player2Name || 'Player II', player2Token);
+  // let currentPlayer = null;
+  const player1 = Player('Player I', '');
+  const player2 = Player('Player II', '');
 
   let currentPlayer = player1;
 
@@ -84,14 +81,13 @@ const GameController = (() => {
   };
   const getCurrentPlayer = () => currentPlayer;
 
-
   const showWinnerMessage = (winnerName) => {
     const dialog = document.querySelector('.game-modal');
     const message = document.querySelector('.game-message');
     message.textContent = `${winnerName} wins!`;
     dialog.showModal();
   };
- 
+
   const showTieMessage = () => {
     const dialog = document.querySelector('.game-modal');
     const message = document.querySelector('.game-message');
@@ -100,6 +96,15 @@ const GameController = (() => {
   };
 
   const playRound = (index) => {
+    const player1Name = document.getElementById('player1-name').value;
+    const player2Name = document.getElementById('player2-name').value;
+    const player1Token = document.getElementById('player1-emoji').value;
+    const player2Token = document.getElementById('player2-emoji').value;
+
+    player1.getName = () => player1Name || 'Player I';
+    player2.getName = () => player2Name || 'Player II';
+    player1.getToken = () => player1Token;
+    player2.getToken = () => player2Token;
     const board = Game.getBoard();
     // Check if the player is choosing a valid cell
     if (board[index] !== '') return;
